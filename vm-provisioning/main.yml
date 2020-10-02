@@ -1,0 +1,13 @@
+---
+- hosts: centos
+  become: true
+  tasks:
+  - name: installing dependencies
+    yum:
+      name:
+        - git
+        - docker
+        - wget
+        - curl
+        - sqlite
+      state: present
