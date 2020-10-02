@@ -1,0 +1,10 @@
+#Getting into nodejs path
+cd /usr/local/bin/node-v9.9.0
+
+#Installing nodejs version 9.9.0
+./configure
+make
+make install
+
+#Verifying nodejs version
+nodejs --version

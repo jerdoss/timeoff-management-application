@@ -9,19 +9,27 @@
         - docker
         - curl
         - unzip
-        - sqlite
         - epel-release
+        - gcc
+        - gcc-c++
       state: present
   
+  - name: Installing sqlite
+    yum:
+      name: sqlite-devel
+      state: present
+      
   - name: Installing python-pip
     yum:
       name: python-pip
       state: present
 
-  - name: Installing nodejs
-    yum:
-      name: nodejs
-      state: present
+  - name: Unzip nodejs
+    unarchive:
+      src: https://nodejs.org/dist/v9.9.0/node-v9.9.0.tar.gz
+      dest: /usr/local/bin
+      mode: '0755'
+      remote_src: yes
 
   - name: Installing Selenium
     pip:
