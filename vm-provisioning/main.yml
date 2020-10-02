@@ -1,13 +1,59 @@
 ---
-- hosts: centos
+- hosts: centos7
   become: true
   tasks:
-  - name: installing dependencies
+  - name: Installing dependencies
     yum:
       name:
         - git
         - docker
-        - wget
         - curl
+        - unzip
         - sqlite
+        - epel-release
+      state: present
+  
+  - name: Installing python-pip
+    yum:
+      name: python-pip
+      state: present
+
+  - name: Installing nodejs
+    yum:
+      name: nodejs
+      state: present
+
+  - name: Installing Selenium
+    pip:
+      name: selenium
+
+  - name: Downloading Chrome
+    uri:
+      url: https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
+      dest: /root
+      mode: '0755'
+
+  - name: Installing Chrome
+    yum:
+      name: /root/google-chrome-stable_current_x86_64.rpm
+      state: present
+  
+  - name: Unzip ChromeDriver
+    unarchive:
+      src: https://chromedriver.storage.googleapis.com/2.40/chromedriver_linux64.zip
+      dest: /usr/local/bin
+      mode: '0755'
+      remote_src: yes
+  
+  - name: Installing Xvfb
+    yum:
+      name: Xvfb
+      state: present
+
+  - name: Enabling Docker
+    command: systemctl enable docker
+
+  - name: Create group "docker"
+    group:
+      name: docker
       state: present
